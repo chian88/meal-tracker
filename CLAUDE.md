@@ -34,6 +34,13 @@ No test runner is configured.
 - With Partial Prefetching, `<Link>` prefetches only the route's static/cached App Shell. Use `<Link prefetch={true}>` to also prefetch URL-specific cached content.
 - `GET` Route Handlers follow the same prerendering model as pages.
 
+## Authentication (Clerk)
+
+- `@clerk/nextjs` v7, linked to the Clerk app "Meal Tracker" (`app_3KfpbswLXNJEpQIEakwfVyvQV0M`) through the Clerk CLI. Keys live in `.env.local` (gitignored). Use `clerk env pull` to restore them and `clerk doctor` to check the setup.
+- `src/proxy.ts` (Next 16's rename of `middleware.ts`) runs `clerkMiddleware()`. Routes are public by default, so protect each page, Route Handler, or Server Action with `await auth.protect()` (from `@clerk/nextjs/server`).
+- `ClerkProvider` sits inside `<body>` in `src/app/layout.tsx`. The header's auth controls also live there.
+- Because Cache Components is on, Clerk components that read request or URL data need a `<Suspense>` boundary: the server `<Show>` (it calls `auth()`), and `<SignIn>`/`<SignUp>` (they call `usePathname()`). Anything that calls `auth()` or `currentUser()` needs one too.
+
 ## Conventions
 
 - Layout and page props use the globally generated route types (e.g. `LayoutProps<"/">`, `PageProps<"/...">`), with no import needed. Next.js generates them into `.next/types` when you run `dev` or `build`.
