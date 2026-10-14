@@ -32,12 +32,12 @@ function AuthControls() {
   return (
     <>
       <Show when="signed-out">
-        <SignInButton>
+        <SignInButton mode="modal">
           <button className="h-9 rounded-full px-4 text-sm font-medium transition-colors hover:bg-black/[.04] dark:hover:bg-white/[.08]">
             Sign in
           </button>
         </SignInButton>
-        <SignUpButton>
+        <SignUpButton mode="modal">
           <button className="h-9 rounded-full bg-foreground px-4 text-sm font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]">
             Sign up
           </button>
